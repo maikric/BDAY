@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday, BABI 🎉</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #9ad2ff, #fad0c4);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+      position: relative;
+    }
+
+    h1, p {
+      opacity: 0;
+      animation: fadeInText 3s ease forwards;
+    }
+
+    h1 { font-size: 3em; }
+    p {
+      font-size: 1.5em;
+      max-width: 600px;
+      animation-delay: 1.5s;
+    }
+
+    img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-top: 30px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 2s ease;
+    }
+
+    .heart {
+      font-size: 2rem;
+      animation: beat 1s infinite;
+      color: #ee361a;
+      margin-top: 10px;
+      opacity: 0;
+      animation-delay: 3s;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    @keyframes fadeInText {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      background-color: #5edfff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover { background-color: #b76db1f8; }
+
+    #surprise {
+      display: none;
+      margin-top: 10px;
+      font-size: 1.4em;
+      color: #e60073;
+    }
+
+    #gift {
+      display: none;
+      margin-top: 15px;
+      width: 120px;
+    }
+
+    /* Floating Hearts */
+    .floating-heart {
+      position: absolute;
+      font-size: 30px;
+      color: #ff4d7f;
+      opacity: 0;
+      animation: floatHearts 5s infinite;
+      animation-delay: 2s;
+    }
+
+    @keyframes floatHearts {
+      0%   { transform: translateY(0) scale(1); opacity: 1; }
+      50%  { transform: translateY(-150px) scale(1.5); opacity: 0.7; }
+      100% { transform: translateY(-300px) scale(1.8); opacity: 0; }
+    }
+
+    /* New Surprise Section */
+    #bigSurprise {
+      display: none;
+      margin-top: 50px;
+      background: #ff5e78;
+      padding: 20px;
+      border-radius: 15px;
+      color: white;
+      font-size: 2em;
+      animation: scaleUp 2s forwards;
+    }
+
+    @keyframes scaleUp {
+      from { transform: scale(0); }
+      to   { transform: scale(1); }
+    }
+
+    /* Confetti Canvas */
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* Floating Happy Birthday Words */
+    .floating-text {
+      position: absolute;
+      font-size: 2em;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0px 0px 10px rgba(255,255,255,0.7);
+      opacity: 0;
+      animation: floatWords 8s linear infinite;
+    }
+
+    @keyframes floatWords {
+      0%   { transform: translateY(0) scale(0.8); opacity: 1; }
+      50%  { transform: translateY(-200px) scale(1.2); opacity: 0.7; }
+      100% { transform: translateY(-400px) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bgMusic" src="birthday.mp3" autoplay loop></audio>
+
+  <h1>Happy Birthday, My Love! 🎂</h1>
+  <p>You make every day brighter just by being in it. I'm so lucky to have you. 💖</p>
+  <div class="heart">❤️</div>
+
+  <img id="bfImage" src="boyfriend.jpg" alt="My Love">
+
+  <button onclick="showSurprise()">🎁 Click Here for a Surprise!</button>
+
+  <div id="surprise">You are my favorite person in the whole universe! 🌌✨</div>
+  <img id="gift" src="gift.png" alt="Virtual Gift">
+
+  <div id="bigSurprise">🌟 You've unlocked a special surprise! 🌟</div>
+
+  <!-- Floating Hearts -->
+  <div class="floating-heart">❤️</div>
+  <div class="floating-heart">❤️</div>
+  <div class="floating-heart">❤️</div>
+  <div class="floating-heart">❤️</div>
+  <div class="floating-heart">❤️</div>
+
+  <!-- Floating Words -->
+  <div class="floating-text" style="left:10%; animation-delay: 1s;">Happy Birthday</div>
+  <div class="floating-text" style="left:30%; animation-delay: 3s; color:#ffe066;">Happy Birthday</div>
+  <div class="floating-text" style="left:50%; animation-delay: 5s; color:#ff6b6b;">Happy Birthday</div>
+  <div class="floating-text" style="left:70%; animation-delay: 7s; color:#4ecdc4;">Happy Birthday</div>
+  <div class="floating-text" style="left:85%; animation-delay: 9s; color:#c77dff;">Happy Birthday</div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <script>
+    // Delay boyfriend image
+    window.onload = function() {
+      setTimeout(() => {
+        const img = document.getElementById('bfImage');
+        img.style.opacity = 1;
+        img.style.transform = 'scale(1)';
+      }, 4000);
+
+      const music = document.getElementById("bgMusic");
+      music.volume = 0.2;
+      music.play().catch(() => {
+        console.log("Autoplay might be blocked.");
+      });
+    }
+
+    function showSurprise() {
+      document.getElementById('surprise').style.display = 'block';
+      document.getElementById('gift').style.display = 'block';
+
+      setTimeout(() => {
+        document.getElementById('bigSurprise').style.display = 'block';
+      }, 3000);
+
+      launchConfetti();
+    }
+
+    // Confetti Animation
+    function launchConfetti() {
+      const canvas = document.getElementById("confettiCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let confetti = [];
+      for (let i = 0; i < 150; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 150 + 50,
+          color: "hsl(" + Math.random() * 360 + ", 100%, 50%)",
+          tilt: Math.floor(Math.random() * 10) - 10
+        });
+      }
+
+      function drawConfetti() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confetti.forEach(c => {
+          ctx.beginPath();
+          ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2, false);
+          ctx.fillStyle = c.color;
+          ctx.fill();
+        });
+        updateConfetti();
+      }
+
+      function updateConfetti() {
+        confetti.forEach(c => {
+          c.y += (Math.cos(c.d) + 2 + c.r/2) * 0.5;
+          c.x += Math.sin(c.d);
+
+          if (c.y > canvas.height) {
+            c.y = -10;
+            c.x = Math.random() * canvas.width;
+          }
+        });
+      }
+
+      setInterval(drawConfetti, 20);
+    }
+  </script>
+
+</body>
+</html>
