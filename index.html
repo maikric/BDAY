@@ -8,7 +8,9 @@
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #9ad2ff, #fad0c4);
+      background: linear-gradient(135deg, #9ad2ff, #fad0c4, #ff9a9e, #a1c4fd);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       color: #333;
       display: flex;
       flex-direction: column;
@@ -20,16 +22,32 @@
       position: relative;
     }
 
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     h1, p {
       opacity: 0;
       animation: fadeInText 3s ease forwards;
     }
 
-    h1 { font-size: 3em; }
+    h1 {
+      font-size: 3em;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff69b4, 0 0 30px #ff1493;
+      animation: fadeInText 3s ease forwards, glow 2s ease-in-out infinite alternate;
+    }
+
     p {
       font-size: 1.5em;
       max-width: 600px;
       animation-delay: 1.5s;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff, 0 0 20px #ff69b4; }
+      to { text-shadow: 0 0 20px #ff69b4, 0 0 40px #ff1493; }
     }
 
     img {
@@ -72,10 +90,13 @@
       background-color: #5edfff;
       color: white;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, transform 0.2s;
     }
 
-    button:hover { background-color: #b76db1f8; }
+    button:hover {
+      background-color: #b76db1f8;
+      transform: scale(1.05);
+    }
 
     #surprise {
       display: none;
@@ -90,23 +111,6 @@
       width: 120px;
     }
 
-    /* Floating Hearts */
-    .floating-heart {
-      position: absolute;
-      font-size: 30px;
-      color: #ff4d7f;
-      opacity: 0;
-      animation: floatHearts 5s infinite;
-      animation-delay: 2s;
-    }
-
-    @keyframes floatHearts {
-      0%   { transform: translateY(0) scale(1); opacity: 1; }
-      50%  { transform: translateY(-150px) scale(1.5); opacity: 0.7; }
-      100% { transform: translateY(-300px) scale(1.8); opacity: 0; }
-    }
-
-    /* New Surprise Section */
     #bigSurprise {
       display: none;
       margin-top: 50px;
@@ -123,14 +127,19 @@
       to   { transform: scale(1); }
     }
 
-    /* Confetti Canvas */
-    #confettiCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
+    /* Floating Hearts */
+    .floating-heart {
+      position: absolute;
+      font-size: 30px;
+      color: #ff4d7f;
+      opacity: 0;
+      animation: floatHearts 5s infinite;
+    }
+
+    @keyframes floatHearts {
+      0%   { transform: translateY(0) scale(1); opacity: 1; }
+      50%  { transform: translateY(-150px) scale(1.5); opacity: 0.7; }
+      100% { transform: translateY(-300px) scale(1.8); opacity: 0; }
     }
 
     /* Floating Happy Birthday Words */
@@ -149,6 +158,59 @@
       50%  { transform: translateY(-200px) scale(1.2); opacity: 0.7; }
       100% { transform: translateY(-400px) scale(1.5); opacity: 0; }
     }
+
+    /* Confetti Canvas */
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* Balloons */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px;
+      height: 80px;
+      border-radius: 50%;
+      animation: floatBalloon 10s linear infinite;
+    }
+
+    @keyframes floatBalloon {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Stars */
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+
+    /* Shake effect */
+    body.shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(2px, 2px); }
+      25% { transform: translate(-2px, -2px); }
+      50% { transform: translate(2px, -2px); }
+      75% { transform: translate(-2px, 2px); }
+      100% { transform: translate(0, 0); }
+    }
   </style>
 </head>
 <body>
@@ -164,16 +226,16 @@
   <button onclick="showSurprise()">🎁 Click Here for a Surprise!</button>
 
   <div id="surprise">You are my favorite person in the whole universe! 🌌✨</div>
-  <img id="gift" src="gift.png" alt="Virtual Gift">
+  <img id="gift" src="gift.jpg" alt="Virtual Gift">
 
   <div id="bigSurprise">🌟 You've unlocked a special surprise! 🌟</div>
 
   <!-- Floating Hearts -->
-  <div class="floating-heart">❤️</div>
-  <div class="floating-heart">❤️</div>
-  <div class="floating-heart">❤️</div>
-  <div class="floating-heart">❤️</div>
-  <div class="floating-heart">❤️</div>
+  <div class="floating-heart" style="left:10%; animation-delay:1s;">❤️</div>
+  <div class="floating-heart" style="left:30%; animation-delay:2s;">❤️</div>
+  <div class="floating-heart" style="left:50%; animation-delay:3s;">❤️</div>
+  <div class="floating-heart" style="left:70%; animation-delay:4s;">❤️</div>
+  <div class="floating-heart" style="left:85%; animation-delay:5s;">❤️</div>
 
   <!-- Floating Words -->
   <div class="floating-text" style="left:10%; animation-delay: 1s;">Happy Birthday</div>
@@ -194,6 +256,26 @@
         img.style.transform = 'scale(1)';
       }, 4000);
 
+      // add stars
+      for (let i = 0; i < 40; i++) {
+        let star = document.createElement("div");
+        star.className = "star";
+        star.style.left = Math.random() * window.innerWidth + "px";
+        star.style.top = Math.random() * window.innerHeight + "px";
+        star.style.animationDelay = (Math.random() * 2) + "s";
+        document.body.appendChild(star);
+      }
+
+      // add balloons
+      for (let i = 0; i < 6; i++) {
+        let balloon = document.createElement("div");
+        balloon.className = "balloon";
+        balloon.style.left = Math.random() * window.innerWidth + "px";
+        balloon.style.background = "hsl(" + Math.random() * 360 + ", 80%, 60%)";
+        balloon.style.animationDelay = (Math.random() * 10) + "s";
+        document.body.appendChild(balloon);
+      }
+
       const music = document.getElementById("bgMusic");
       music.volume = 0.2;
       music.play().catch(() => {
@@ -202,6 +284,9 @@
     }
 
     function showSurprise() {
+      document.body.classList.add("shake");
+      setTimeout(() => document.body.classList.remove("shake"), 500);
+
       document.getElementById('surprise').style.display = 'block';
       document.getElementById('gift').style.display = 'block';
 
